@@ -14,6 +14,8 @@ public:
 public:
     AlignedAllocator() noexcept = default;
     Pointer allocate(SizeType n);
-    void deallocate(Pointer ptr);
+    void deallocate(Pointer ptr,std::size_t n);
 };
 }
+
+#include "../../src/sigflx_lib/sigflx_allocator.tpp"
