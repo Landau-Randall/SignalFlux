@@ -78,43 +78,43 @@ Complex<T> Complex<T>::comjugate() const
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator+(const Complex<T> & object)
+Complex<T> Complex<T>::operator+(const Complex<T> & object) const
 {
     return Complex(this->real_ + object.real_,this->imaginary_+object.imaginary_);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator+(T scalar)
+Complex<T> Complex<T>::operator+(T scalar) const
 {
     return Complex(this->real_ + scalar,this->imaginary_);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator-(const Complex<T> & object)
+Complex<T> Complex<T>::operator-(const Complex<T> & object) const
 {
     return Complex(this->real_ - object.real_,this->imaginary_-object.imaginary_);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator-(T scalar)
+Complex<T> Complex<T>::operator-(T scalar) const
 {
     return Complex(this->real_ - scalar,this->imaginary_);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator*(const Complex<T> & object)
+Complex<T> Complex<T>::operator*(const Complex<T> & object) const
 {
     return Complex(this->real_ * object.real_ - this->imaginary_ * object.imaginary_,this->real_ * object.imaginary_ + this->imaginary_ * object.real_);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator*(T scalar)
+Complex<T> Complex<T>::operator*(T scalar) const
 {
     return Complex(this->real_ * scalar,this->imaginary_ * scalar);
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator/(const Complex<T> & object)
+Complex<T> Complex<T>::operator/(const Complex<T> & object) const
 {
     Complex<T> conjugateObject = object.comjugate();
     T norm = object.magnitude();
@@ -124,7 +124,7 @@ Complex<T> Complex<T>::operator/(const Complex<T> & object)
 }
 
 template<typename T>
-Complex<T> Complex<T>::operator/(T scalar)
+Complex<T> Complex<T>::operator/(T scalar) const
 {
     return Complex(this->real_ / scalar,this->imaginary_ / scalar);
 }

@@ -34,14 +34,14 @@ public:
     T & imaginary();
 
     Complex comjugate() const;
-    Complex operator+(const Complex & object);
-    Complex operator+(T scalar);
-    Complex operator-(const Complex & object);
-    Complex operator-(T scalar);
-    Complex operator*(const Complex & object);
-    Complex operator*(T scalar);
-    Complex operator/(const Complex & object);
-    Complex operator/(T scalar);
+    Complex operator+(const Complex & object) const;
+    Complex operator+(T scalar) const;
+    Complex operator-(const Complex & object) const;
+    Complex operator-(T scalar) const;
+    Complex operator*(const Complex & object) const;
+    Complex operator*(T scalar) const;
+    Complex operator/(const Complex & object) const;
+    Complex operator/(T scalar) const;
 
     T magnitude() const;
     T argument() const;
