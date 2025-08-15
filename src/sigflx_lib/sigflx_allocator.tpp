@@ -11,7 +11,7 @@ typename AlignedAllocator<T,AlignSize>::Pointer AlignedAllocator<T,AlignSize>::a
         return nullptr;
     }
 
-    void * result = Allocate<CurrentOS>::allocate(n,AlignSize);
+    void * result = Allocate<CurrentOS>::allocate(n * sizeof(T),AlignSize);
     if (result != nullptr)
     {
         return static_cast<T*>(result);
