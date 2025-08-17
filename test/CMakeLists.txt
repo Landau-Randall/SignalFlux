@@ -1,7 +1,15 @@
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_executable(system_detect_test.out system_detect_test.cpp)
-add_executable(sigflx_allocator_test.out sigflx_allocator_test.cpp)
-add_executable(sigflx_math_constant_test.out sigflx_math_constant_test.cpp)
-add_executable(sigflx_complex_test.out sigflx_complex_test.cpp)
-add_executable(sigflx_math_complex_test.out sigflx_math_complex_test.cpp)
+file(GLOB TEST_SOURCES "*.cpp")
+
+add_executable(run_tests ${TEST_SOURCES})
+
+target_link_libraries(
+    run_tests
+    PRIVATE
+    GTest::gtest
+    GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_add_tests(TARGET run_tests)
