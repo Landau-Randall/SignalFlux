@@ -1,10 +1,12 @@
 #pragma once
-#include "system_detect.h"
+#include "sigflx_platform_detect.h"
 #include <cstddef>
 #include <exception>
 #include <stdlib.h>
 
 namespace SignalFlux
+{
+namespace Platform
 {
 template<OSType > 
 struct Allocate;
@@ -56,4 +58,5 @@ struct DeAllocator<OSType::Linux>
         free(pointer);
     }
 };
+}
 }

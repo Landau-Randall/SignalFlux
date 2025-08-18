@@ -4,6 +4,8 @@
 
 namespace SignalFlux
 {
+namespace Allocators
+{
 template<typename T,std::size_t AlignSize = 64UL>
 class AlignedAllocator
 {
@@ -16,6 +18,7 @@ public:
     Pointer allocate(SizeType n);
     void deallocate(Pointer ptr,std::size_t n);
 };
+}
 }
 
 #include "../../src/sigflx_lib/sigflx_allocator.tpp"

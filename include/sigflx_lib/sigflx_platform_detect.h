@@ -2,6 +2,8 @@
 
 namespace SignalFlux
 {
+namespace Platform
+{
 enum class OSType
 {
     Unknown,
@@ -19,5 +21,5 @@ constexpr OSType detectOS()
 };
 
 constexpr OSType CurrentOS = detectOS();
-
+}
 } 
