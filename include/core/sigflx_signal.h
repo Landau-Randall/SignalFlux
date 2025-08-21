@@ -1,5 +1,7 @@
 #pragma once
+#include <type_traits>
 #include <cstddef>
+#include <iterator>
 
 namespace SignalFlux
 {
@@ -16,6 +18,74 @@ public:
     using AllocatorType = Allocator;
 
     enum class Layout{Interleaved,Planar};
+
+    template<bool isConst>
+    class SignalBaseIterator
+    {
+    public:
+        using ValueTypeCondition = typename Signal::ValueType;
+        using PointerCondition   = typename std::conditional<isConst,Signal::ConstPointer,Signal::Pointer>::type;
+        using ReferenceCondition = typename std::conditional<isConst,Signal::ConstReference,Signal::Reference>::type;
+
+        using IteratorCategory = std::random_access_iterator_tag;
+        using ValueType = ValueTypeCondition;
+        using Pointer = PointerCondition;
+        using Reference = ReferenceCondition;
+        using SizeType = Signal::SizeType;
+        using DifferenceType = std::ptrdiff_t;
+    private:
+        Pointer head_ = nullptr;
+        SizeType offset_ = 0;
+        SizeType frames_ = 0;
+        SizeType channels_ = 0;
+        Layout layout_ = Layout::Planar;
+    public:
+        SignalBaseIterator();
+        SignalBaseIterator(Pointer head,SizeType offset,SizeType frames,SizeType channels,Layout layout);
+        SignalBaseIterator(const SignalBaseIterator & object);
+        SignalBaseIterator(SignalBaseIterator && object);
+
+        ~SignalBaseIterator();
+
+        bool operator==(const SignalBaseIterator & object) const;
+        bool operator!=(const SignalBaseIterator & object) const;
+        bool operator<(const SignalBaseIterator & object) const;
+        bool operator>(const SignalBaseIterator & object) const;
+        bool operator<=(const SignalBaseIterator & object) const;
+        bool operator>=(const SignalBaseIterator & object) const;
+
+        SignalBaseIterator & operator=(const SignalBaseIterator & object);
+        SignalBaseIterator & operator=(SignalBaseIterator && object);
+        
+        SignalBaseIterator operator+(SizeType forward) const;
+        SignalBaseIterator operator-(SizeType backward) const;
+        DifferenceType operator-(const SignalBaseIterator & object) const;
+
+        SignalBaseIterator & operator+=(SizeType forward);
+        SignalBaseIterator & operator-=(SizeType backward);
+
+        SignalBaseIterator & operator++();
+        SignalBaseIterator & operator--();
+        SignalBaseIterator operator++(int);
+        SignalBaseIterator operator--(int);
+        
+
+        SizeType currentFrame() const;
+        SizeType currentChannel() const;
+        Reference operator*() const;
+        Pointer operator->() const;
+        Reference operator[](DifferenceType n) const;
+        
+        Pointer head() const { return head_; };
+        SizeType offset() const { return offset_; };
+        SizeType frames() const { return frames_; };
+        SizeType channels() const { return channels_; };
+        Layout layout() const {return layout_; };
+
+    }; 
+
+    using SignalIterator = SignalBaseIterator<false>;
+    using ConstSignalIterator = SignalBaseIterator<true>;
 private:
     Pointer data_ = nullptr;
     SizeType size_ = 0;
@@ -64,6 +134,14 @@ public:
     void swap(Signal & object);
 
     void fill(const T & value);
+
+    SignalIterator begin() noexcept;
+    SignalIterator end() noexcept;
+    ConstSignalIterator begin() const noexcept;
+    ConstSignalIterator end() const noexcept;
+    ConstSignalIterator cbegin() const noexcept;
+    ConstSignalIterator cend() const noexcept;
+
 
 };
 

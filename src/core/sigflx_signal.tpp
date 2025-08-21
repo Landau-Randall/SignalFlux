@@ -327,8 +327,291 @@ void Signal<T,Allocator>::fill(const T & value)
 }
 
 template<typename T,typename Allocator>
+typename Signal<T,Allocator>::SignalIterator Signal<T,Allocator>::begin() noexcept
+{
+    return SignalIterator(data_,0,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+typename Signal<T,Allocator>::SignalIterator Signal<T,Allocator>::end() noexcept
+{
+    return SignalIterator(data_,size_,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+typename Signal<T,Allocator>::ConstSignalIterator Signal<T,Allocator>::begin() const noexcept
+{
+    return ConstSignalIterator(data_,0,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+typename Signal<T,Allocator>::ConstSignalIterator Signal<T,Allocator>::end() const noexcept
+{
+    return ConstSignalIterator(data_,size_,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+typename Signal<T,Allocator>::ConstSignalIterator Signal<T,Allocator>::cbegin() const noexcept
+{
+    return ConstSignalIterator(data_,0,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+typename Signal<T,Allocator>::ConstSignalIterator Signal<T,Allocator>::cend() const noexcept
+{
+    return ConstSignalIterator(data_,size_,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
 void swap(Signal<T,Allocator> & first,Signal<T,Allocator> & second) noexcept
 {
     first.swap(second);
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst>::SignalBaseIterator()
+{
+
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst>::SignalBaseIterator(Pointer head,SizeType offset,SizeType frames,SizeType channels,Layout layout):
+head_(head),
+offset_(offset),
+frames_(frames),
+channels_(channels),
+layout_(layout)
+{
+
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst>::SignalBaseIterator(const SignalBaseIterator & object):
+head_(object.head_),
+offset_(object.offset_),
+frames_(object.frames_),
+channels_(object.channels_),
+layout_(object.layout_)
+{
+
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst>::SignalBaseIterator(SignalBaseIterator && object):
+head_(object.head_),
+offset_(object.offset_),
+frames_(object.frames_),
+channels_(object.channels_),
+layout_(object.layout_)
+{
+    object.head_ = nullptr;
+    object.offset_ = 0;
+    object.frames_ = 0;
+    object.channels_ = 0;
+    object.layout_ = Layout::Planar;
+}
+
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst>::~SignalBaseIterator()
+{
+    head_ = nullptr;
+    offset_ = 0;
+    frames_ = 0;
+    channels_ = 0;
+    layout_ = Layout::Planar;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator==(const SignalBaseIterator & object) const
+{
+    return (head_ == object.head_) && (offset_ == object.offset_);
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator!=(const SignalBaseIterator & object) const
+{
+    return !(*this == object);
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator<(const SignalBaseIterator & object) const
+{
+    return offset_ < object.offset_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator>(const SignalBaseIterator & object) const
+{
+    return offset_ > object.offset_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator<=(const SignalBaseIterator & object) const
+{
+    return offset_ <= object.offset_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+bool Signal<T,Allocator>::SignalBaseIterator<isConst>::operator>=(const SignalBaseIterator & object) const
+{
+    return offset_ >= object.offset_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator=(const SignalBaseIterator & object)
+{
+    if (*this != object)
+    {
+        head_ = object.head_;
+        offset_ = object.offset_;
+        frames_ = object.frames_;
+        channels_ = object.channels_;
+        layout_ = object.layout_;
+    }
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator=(SignalBaseIterator && object)
+{
+    if (this != &object)
+    {
+        head_ = object.head_;
+        offset_ = object.offset_;
+        frames_ = object.frames_;
+        channels_ = object.channels_;
+        layout_ = object.layout_;
+
+        object.head_ = nullptr;
+        object.offset_ = 0;
+        object.frames_ = 0;
+        object.channels_ = 0;
+        object.layout_ = Layout::Planar;
+    }
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> Signal<T,Allocator>::SignalBaseIterator<isConst>::operator+(SizeType forward) const
+{
+    return SignalBaseIterator(head_,offset_ + forward,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> Signal<T,Allocator>::SignalBaseIterator<isConst>::operator-(SizeType backward) const
+{
+    return SignalBaseIterator(head_,offset_ - backward,frames_,channels_,layout_);
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::DifferenceType Signal<T,Allocator>::SignalBaseIterator<isConst>::operator-(const SignalBaseIterator & object) const
+{
+    return offset_ - object.offset_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator+=(SizeType forward) 
+{
+    offset_+= forward;
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator-=(SizeType backward) 
+{
+    offset_-= backward;
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator++()
+{
+    offset_++;
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> & Signal<T,Allocator>::SignalBaseIterator<isConst>::operator--()
+{
+    offset_--;
+    return *this;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> Signal<T,Allocator>::SignalBaseIterator<isConst>::operator++(int)
+{
+    SignalBaseIterator temp = *this;
+    ++offset_;
+    return temp;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+Signal<T,Allocator>::SignalBaseIterator<isConst> Signal<T,Allocator>::SignalBaseIterator<isConst>::operator--(int)
+{
+    SignalBaseIterator temp = *this;
+    --offset_;
+    return temp;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::SizeType Signal<T,Allocator>::SignalBaseIterator<isConst>::currentFrame() const
+{
+    return offset_ / channels_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::SizeType Signal<T,Allocator>::SignalBaseIterator<isConst>::currentChannel() const
+{
+    return offset_ % channels_;
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::Reference Signal<T,Allocator>::SignalBaseIterator<isConst>::operator*() const
+{
+    SizeType frame = currentFrame();
+    SizeType channel = currentChannel();
+    SizeType currentLayout = static_cast<SizeType>(layout_);
+    SizeType realOffset = (1 - currentLayout) * (offset_) + (currentLayout) * (channel * frames_ + frame);
+    return head_[realOffset];
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::Pointer Signal<T,Allocator>::SignalBaseIterator<isConst>::operator->() const
+{
+    return &(operator*());
+}
+
+template<typename T,typename Allocator>
+template<bool isConst>
+typename Signal<T,Allocator>::SignalBaseIterator<isConst>::Reference Signal<T,Allocator>::SignalBaseIterator<isConst>::operator[](DifferenceType n) const
+{
+    return *(*this + n);
 }
 }
