@@ -1,4 +1,4 @@
-#include "sigflx_lib/sigflx_allocator.h"
+#include "sigflx_lib/sigflx_allocators.h"
 #include "sigflx_lib/sigflx_platform_allocator.h"
 
 namespace SignalFlux

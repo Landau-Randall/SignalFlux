@@ -21,4 +21,4 @@ public:
 }
 }
 
-#include "../../src/sigflx_lib/sigflx_allocator.tpp"
+#include "../../src/sigflx_lib/sigflx_allocators.tpp"
