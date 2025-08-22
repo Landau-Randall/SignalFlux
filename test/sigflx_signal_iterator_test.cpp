@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
-#include "sigflx_lib/sigflx_allocator.h"
+#include "sigflx_lib/sigflx_allocators.h"
 #include "core/sigflx_signal.h"
 
 using TestSignal = SignalFlux::Signal<float,SignalFlux::Allocators::AlignedAllocator<float>>;
