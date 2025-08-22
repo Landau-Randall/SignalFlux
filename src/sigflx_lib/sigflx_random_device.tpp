@@ -15,13 +15,13 @@ typename RandomDevice<UnsignedIntType>::ResultType RandomDevice<UnsignedIntType>
 }
 
 template<typename UnsignedIntType>
-typename RandomDevice<UnsignedIntType>::ResultType RandomDevice<UnsignedIntType>::min() noexcept
+constexpr typename RandomDevice<UnsignedIntType>::ResultType RandomDevice<UnsignedIntType>::min()
 {
     return std::numeric_limits<ResultType>::min();
 }
 
 template<typename UnsignedIntType>
-typename RandomDevice<UnsignedIntType>::ResultType RandomDevice<UnsignedIntType>::max() noexcept
+constexpr typename RandomDevice<UnsignedIntType>::ResultType RandomDevice<UnsignedIntType>::max()
 {
     return std::numeric_limits<ResultType>::max();
 }

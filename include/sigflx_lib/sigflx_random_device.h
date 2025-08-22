@@ -14,8 +14,8 @@ public:
     RandomDevice(const RandomDevice & object) = delete;
 
     ResultType operator()() const;
-    static ResultType min() noexcept;
-    static ResultType max() noexcept;
+    static constexpr ResultType min();
+    static constexpr ResultType max();
 };
 }
 }
