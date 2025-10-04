@@ -49,7 +49,7 @@ public:
         bool isFree(SizeType n) const noexcept;
     };
 private:
-    static constexpr SizeType poolSize_ = 2048;
+    static constexpr SizeType poolSize_ = 4096;
     ByteType * source_ = nullptr;
     PoolBlock<poolSize_> pool_[7];
     SizeType nextPowerOfTwo(SizeType x);
