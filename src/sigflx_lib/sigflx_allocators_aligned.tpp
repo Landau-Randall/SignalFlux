@@ -1,5 +1,5 @@
-#include "sigflx_lib/sigflx_allocators.h"
-#include "sigflx_lib/sigflx_platform_allocator.h"
+#include "sigflx_lib/sigflx_allocators_aligned.h"
+
 
 namespace SignalFlux
 {

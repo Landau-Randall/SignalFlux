@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include "sigflx_lib/sigflx_platform_allocator.h"
 
 namespace SignalFlux
 {
@@ -21,4 +22,4 @@ public:
 }
 }
 
-#include "../../src/sigflx_lib/sigflx_allocators.tpp"
+#include "../../src/sigflx_lib/sigflx_allocators_aligned.tpp"
