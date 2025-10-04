@@ -1,180 +1,151 @@
 #include "sigflx_lib/sigflx_math_complex.h"
 #include "sigflx_lib/sigflx_math_constant.h"
+#include <iostream>
 #include <cmath>
-#include <limits>
 
 namespace SignalFlux
 {
 namespace Math
 {
-
 template<typename T>
-bool isReal(const Complex<T> & object)
+Complex<T>::Complex(std::initializer_list<T> list)
 {
-    if constexpr (std::is_integral_v<T>) {
-        return object.imaginary() == T(0);
-    } else {
-        constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-        return std::abs(object.imaginary()) < epsilon;
+    if (list.size() == 2)
+    {
+        real_ = *list.begin();
+        imaginary_ = *list.end();
+    }
+    else
+    {
+        std::cout << "list size error!\n";
     }
 }
 
 template<typename T>
-bool isImaginary(const Complex<T> & object)
+bool Complex<T>::operator==(const Complex & object)
 {
-    if constexpr (std::is_integral_v<T>) {
-        return object.real() == T(0);
-    } else {
-        constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-        return std::abs(object.real()) < epsilon;
+    return real_ == object.real_ && imaginary_ == object.imaginary_;
+}
+
+template<typename T>
+bool Complex<T>::operator!=(const Complex & object)
+{
+    return !(*this == object);
+}
+
+template<typename T>
+Complex<T> & Complex<T>::operator=(std::initializer_list<T> list)
+{
+    if (list.size() == 2)
+    {
+        real_ = *list.begin();
+        imaginary_ = *list.end();
+    }
+    else
+    {
+        std::cout << "list size error\n";
     }
 }
 
 template<typename T>
-bool isZero(const Complex<T> & object)
+const T & Complex<T>::real() const
 {
-    T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    return object.magnitude() < epsilon;
+    return real_;
 }
 
 template<typename T>
-T abs(const Complex<T> & z)
+T & Complex<T>::real()
 {
-    return z.magnitude();
+    return real_;
 }
 
 template<typename T>
-T norm(const Complex<T> & z)
+const T & Complex<T>::imaginary() const
 {
-    T mag = z.magnitude();
-    return mag * mag;
+    return imaginary_;
 }
 
 template<typename T>
-Complex<T> polar(T radius,T theta)
+T & Complex<T>::imaginary()
 {
-    return Complex(radius * std::cos(theta),radius * std::sin(theta));
+    return imaginary_;
 }
 
 template<typename T>
-Complex<T> exp(const Complex<T> & z)
+Complex<T> Complex<T>::comjugate() const
 {
-    return polar(std::exp(z.real()),z.imaginary());
+    return Complex(real_,-imaginary_);
 }
 
 template<typename T>
-Complex<T> ln(const Complex<T> & z)
+Complex<T> Complex<T>::operator+(const Complex<T> & object) const
 {
-    return Complex(std::log(z.magnitude()),z.argument());
+    return Complex(this->real_ + object.real_,this->imaginary_+object.imaginary_);
 }
 
 template<typename T>
-Complex<T> log2(const Complex<T> & z)
+Complex<T> Complex<T>::operator+(T scalar) const
 {
-    return ln(z) / std::log(T(2));
+    return Complex(this->real_ + scalar,this->imaginary_);
 }
 
 template<typename T>
-Complex<T> log10(const Complex<T> & z)
+Complex<T> Complex<T>::operator-(const Complex<T> & object) const
 {
-    return ln(z) / std::log(T(10));
+    return Complex(this->real_ - object.real_,this->imaginary_-object.imaginary_);
 }
 
 template<typename T>
-Complex<T> pow(const Complex<T> & z,T n)
+Complex<T> Complex<T>::operator-(T scalar) const
 {
-    T r = z.magnitude();
-    T arg = z.argument();
-    T rn = std::pow(r,n);
-    return Complex(rn * std::cos(n * arg),rn * std::sin(n * arg));
+    return Complex(this->real_ - scalar,this->imaginary_);
 }
 
 template<typename T>
-Complex<T> sqrt(const Complex<T> & z)
+Complex<T> Complex<T>::operator*(const Complex<T> & object) const
 {
-    T r = z.magnitude();
-    T arg = z.argument();
-    T sqrtr = std::sqrt(r);
-    return Complex(sqrtr * std::cos(T(0.5) * arg),sqrtr * std::sin(T(0.5) * arg));
+    return Complex(this->real_ * object.real_ - this->imaginary_ * object.imaginary_,this->real_ * object.imaginary_ + this->imaginary_ * object.real_);
 }
 
 template<typename T>
-Complex<T> sin(const Complex<T> & z)
+Complex<T> Complex<T>::operator*(T scalar) const
 {
-    return Complex(std::sin(z.real()) * std::cosh(z.imaginary()),std::cos(z.real()) * std::sinh(z.imaginary()));
+    return Complex(this->real_ * scalar,this->imaginary_ * scalar);
 }
 
 template<typename T>
-Complex<T> cos(const Complex<T> & z)
+Complex<T> Complex<T>::operator/(const Complex<T> & object) const
 {
-    return Complex(std::cos(z.real()) * std::cosh(z.imaginary()),-std::sin(z.real()) * std::sinh(z.imaginary()));
+    Complex<T> conjugateObject = object.comjugate();
+    T norm = object.magnitude();
+    T square = norm * norm;
+    Complex<T> result = *this * conjugateObject;
+    return Complex(result.real_/square,result.imaginary_/square);
 }
 
 template<typename T>
-Complex<T> tan(const Complex<T> & z)
+Complex<T> Complex<T>::operator/(T scalar) const
 {
-    return sin(z)/cos(z);
+    return Complex(this->real_ / scalar,this->imaginary_ / scalar);
 }
 
 template<typename T>
-Complex<T> cot(const Complex<T> & z)
+T Complex<T>::magnitude() const
 {
-    return cos(z)/sin(z);
+    return std::sqrt(real_ * real_ + imaginary_ * imaginary_);
 }
 
 template<typename T>
-Complex<T> sec(const Complex<T> & z)
+T Complex<T>::argument() const
 {
-    return Complex(T(1),T(0))/cos(z);
-}
-
-template<typename T>
-Complex<T> csc(const Complex<T> & z)
-{
-    return Complex(T(1),T(0))/sin(z);
-}
-
-template<typename T>
-Complex<T> asin(const Complex<T> & z)
-{
-    Complex<T> square = z * z;
-    Complex<T> sqrtOneMinusZSquare = sqrt(Complex(T(1),T(0)) - square);
-    Complex<T> iz = Complex(T(0),T(1)) * z;
-    Complex<T> result = Complex(T(0),T(1)) * ln(sqrtOneMinusZSquare - iz);
-    return result;
-}
-
-template<typename T>
-Complex<T> acos(const Complex<T> & z)
-{
-    return Complex(pi_v<T>/T(2),T(0)) - asin(z);
-}
-
-template<typename T>
-Complex<T> atan(const Complex<T> & z)
-{
-    Complex<T> iz = Complex(T(0),T(1)) * z;
-    Complex<T> oneMinuesIZ = Complex(T(1),T(0)) - iz;
-    Complex<T> onePlusIZ = Complex(T(1),T(0)) + iz;
-    return Complex(T(0),T(-0.5)) * ln(onePlusIZ/oneMinuesIZ);
-}
-
-template<typename T>
-Complex<T> sinh(const Complex<T> & z)
-{
-    return Complex(std::sinh(z.real()) * std::cos(z.imaginary()),std::cosh(z.real()) * std::sin(z.imaginary()));
-}
-
-template<typename T>
-Complex<T> cosh(const Complex<T> & z)
-{
-    return Complex(std::cosh(z.real()) * std::cos(z.imaginary()),std::sinh(z.real()) * std::sin(z.imaginary()));
-}
-
-template<typename T>
-Complex<T> tanh(const Complex<T> & z)
-{
-    return sinh(z)/cosh(z);
+    if (imaginary_ != 0)
+    {
+        return 2.0 * std::atan2(imaginary_ , (this->magnitude() + real_));
+    }
+    else
+    {
+       return real_ > 0 ? (T(0)) : (pi_v<T>);
+    }
 }
 
 }

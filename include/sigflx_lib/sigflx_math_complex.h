@@ -1,83 +1,66 @@
 #pragma once
-
-#include "sigflx_complex.h"
-#include <limits>
+#include <type_traits>
+#include <initializer_list>
+#include <iostream>
 
 namespace SignalFlux
 {
 namespace Math
 {
 template<typename T>
-bool isReal(const Complex<T> & object);
+class Complex
+{
+    static_assert(std::is_arithmetic<T>::value,"T must be arithmetic value!");
+private:
+    T real_;
+    T imaginary_;
+public:
+    Complex():real_(T()),imaginary_(T()) {};
+    Complex(T realValue,T imaginaryValue):real_(realValue),imaginary_(imaginaryValue) {};
+    Complex(const Complex & object) = default;
+    Complex(Complex && object) = default;
+    Complex(std::initializer_list<T> list);
 
-template<typename T>
-bool isImaginary(const Complex<T> & object);
+    bool operator==(const Complex & object);
+    bool operator!=(const Complex & object);
 
-template<typename T>
-bool isZero(const Complex<T> & object);
+    Complex & operator=(const Complex & object) = default;
+    Complex & operator=(Complex && object) = default;
+    Complex & operator=(std::initializer_list<T> list);
 
-template<typename T>
-T abs(const Complex<T> & z);
+    const T & real() const;
+    T & real();
+    const T & imaginary() const;
+    T & imaginary();
 
-template<typename T>
-T norm(const Complex<T> & z);
+    Complex comjugate() const;
+    Complex operator+(const Complex & object) const;
+    Complex operator+(T scalar) const;
+    Complex operator-(const Complex & object) const;
+    Complex operator-(T scalar) const;
+    Complex operator*(const Complex & object) const;
+    Complex operator*(T scalar) const;
+    Complex operator/(const Complex & object) const;
+    Complex operator/(T scalar) const;
 
-template<typename T>
-Complex<T> polar(T radius,T theta);
+    T magnitude() const;
+    T argument() const;
 
-template<typename T>
-Complex<T> exp(const Complex<T> & z);
+    friend std::ostream & operator<<(std::ostream & os,const Complex & object)
+    {
+        os << object.real_ ;
+        if (object.imaginary_ >= 0)
+            os << '+';
+        os << object.imaginary_ << "i";
+        return os;
+    }
+    friend std::istream & operator>>(std::istream & is,Complex & object)
+    {
+        is >> object.real_ >> object.imaginary_;
+        return is;
+    }
 
-template<typename T>
-Complex<T> ln(const Complex<T> & z);
-
-template<typename T>
-Complex<T> log2(const Complex<T> & z);
-
-template<typename T>
-Complex<T> log10(const Complex<T> & z);
-
-template<typename T>
-Complex<T> pow(const Complex<T> & z,T n);
-
-template<typename T>
-Complex<T> sqrt(const Complex<T> & z);
-
-template<typename T>
-Complex<T> sin(const Complex<T> & z);
-
-template<typename T>
-Complex<T> cos(const Complex<T> & z);
-
-template<typename T>
-Complex<T> tan(const Complex<T> & z);
-
-template<typename T>
-Complex<T> cot(const Complex<T> & z);
-
-template<typename T>
-Complex<T> sec(const Complex<T> & z);
-
-template<typename T>
-Complex<T> csc(const Complex<T> & z);
-
-template<typename T>
-Complex<T> asin(const Complex<T> & z);
-
-template<typename T>
-Complex<T> acos(const Complex<T> & z);
-
-template<typename T>
-Complex<T> atan(const Complex<T> & z);
-
-template<typename T>
-Complex<T> sinh(const Complex<T> & z);
-
-template<typename T>
-Complex<T> cosh(const Complex<T> & z);
-
-template<typename T>
-Complex<T> tanh(const Complex<T> & z);
+};
 }
 }
 
