@@ -1,10 +1,6 @@
 #include <gtest/gtest.h>
 #include "sigflx_lib/sigflx_allocators_fixed_pool.h"
 
-
-#include <gtest/gtest.h>
-#include "sigflx_lib/sigflx_allocators_fixed_pool.h"
-
 TEST(FixedBlockPoolTest, AllocateAndDeallocateChar)
 {
     auto& pool = SignalFlux::Allocators::FixedBlockPool::instance();
