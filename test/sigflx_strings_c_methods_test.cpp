@@ -67,7 +67,7 @@ TEST(CStringMethods,StringFind)
     EXPECT_EQ(sign3,nullptr);
 }
 
-TEST(CstringMethods,StringFill)
+TEST(CStringMethods,StringFill)
 {
     using namespace SignalFlux::Strings;
     char buffer[6];
@@ -75,4 +75,21 @@ TEST(CstringMethods,StringFill)
     stringFill(buffer,'a',5);
     buffer[5] = '\0';
     EXPECT_STREQ(buffer,test1);
+}
+
+
+TEST(CStringMethods,StringSplit)
+{
+    using namespace SignalFlux::Strings;
+    const char * test1 = "you,finally awake";
+    char test2[] = "hey,you,finally awake";
+    const char* test3 = nullptr;
+    const char ** split1 = stringSplit(test1,',');
+    const char ** split2 = stringSplit(test3,',');
+    char ** split3 = stringSplit(test2,',',true);
+    char ** split4 = stringSplit(test2,',',false);
+    EXPECT_EQ(split1[1][1],'i');
+    EXPECT_EQ(split2,nullptr);
+    EXPECT_STREQ(split3[2],test2 + 8);
+    EXPECT_EQ(split4[0],test2);
 }
