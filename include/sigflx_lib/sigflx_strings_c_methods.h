@@ -19,13 +19,19 @@ template<typename CharType>
 int stringCompare(const CharType * firstStr,const CharType * secondStr,std::size_t n);
 
 template<typename CharType>
-const CharType* stringFind(const CharType* str, CharType ch);
+const CharType* stringFind(const CharType * str, CharType ch);
 
 template<typename CharType> 
-const CharType* stringFind(const CharType* str, const CharType* substr);
+const CharType* stringFind(const CharType * str, const CharType* substr);
 
 template<typename CharType> 
 void stringFill(CharType* dest, CharType value, std::size_t n);
+
+template<typename CharType>
+const CharType ** stringSplit(const CharType * str,CharType splitSign);
+
+template<typename CharType>
+CharType ** stringSplit(CharType * str,CharType splitSign,bool canCopy);
 
 }
 }
