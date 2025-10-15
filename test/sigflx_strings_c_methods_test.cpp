@@ -92,4 +92,23 @@ TEST(CStringMethods,StringSplit)
     EXPECT_EQ(split2,nullptr);
     EXPECT_STREQ(split3[2],test2 + 8);
     EXPECT_EQ(split4[0],test2);
+    char ** cop  = split3;
+    while (*cop != nullptr)
+    {
+        delete [] *cop;
+        ++cop;
+    }
+    delete [] split3;
+
+}
+
+TEST(CStringMethods,StringConcatenate)
+{
+    using namespace SignalFlux::Strings;
+    char test1[] = "buffer\0\0\0";
+    char test2[] = "sig\0\0\0";
+    stringConcatenate(test1,"cow");
+    stringConcatenate(test2,"flx_number_1",3);
+    EXPECT_STREQ(test1,"buffercow");
+    EXPECT_STREQ(test2,"sigflx");
 }
