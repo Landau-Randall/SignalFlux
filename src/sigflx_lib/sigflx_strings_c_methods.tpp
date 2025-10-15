@@ -262,5 +262,44 @@ CharType ** stringSplit(CharType * str,CharType splitSign,bool canCopy)
         return nullptr;
     }
 }
+
+
+template<typename CharType>
+void stringConcatenate(CharType * dest,const CharType * src)
+{
+    if (dest != nullptr && src != nullptr)
+    {
+        CharType * start1 = dest;
+        while (*start1 != static_cast<CharType>('\0'))
+        {
+            ++start1;
+        }
+        std::size_t length = stringLength(src);
+        stringCopy(start1,src,length + 1);
+    }
+    else
+    {
+        return;
+    }
+}
+
+
+template<typename CharType>
+void stringConcatenate(CharType * dest, const CharType * src, std::size_t n)
+{
+    if (dest != nullptr && src != nullptr)
+    {
+        CharType * start1 = dest;
+        while (*start1 != static_cast<CharType>('\0'))
+        {
+            ++start1;
+        }
+        stringCopy(start1,src,n + 1);
+    }
+    else
+    {
+        return;
+    }
+}
 }
 }

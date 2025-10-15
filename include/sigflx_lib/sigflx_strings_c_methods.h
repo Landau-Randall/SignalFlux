@@ -33,6 +33,12 @@ const CharType ** stringSplit(const CharType * str,CharType splitSign);
 template<typename CharType>
 CharType ** stringSplit(CharType * str,CharType splitSign,bool canCopy);
 
+template<typename CharType>
+void stringConcatenate(CharType * dest,const CharType * src);
+
+template<typename CharType>
+void stringConcatenate(CharType * dest, const CharType * src, std::size_t n);
+
 }
 }
 
