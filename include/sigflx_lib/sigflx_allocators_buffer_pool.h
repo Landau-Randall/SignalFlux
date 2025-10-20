@@ -3,7 +3,7 @@
 #include "sigflx_lib/sigflx_allocators_fixed_pool.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Allocators
 {

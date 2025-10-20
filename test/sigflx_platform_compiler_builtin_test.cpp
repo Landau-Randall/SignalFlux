@@ -5,7 +5,7 @@
 
 TEST(GCCBuiltinMethods,LeadingZeros)
 {
-    using namespace SignalFlux::Platform;
+    using namespace SignumFlux::Platform;
     std::uint8_t a = 0x31;//0011 0001
     std::uint8_t a_z = 0x00;
     std::uint16_t b = 0x0132;//0000 0001 0011 0010
@@ -26,7 +26,7 @@ TEST(GCCBuiltinMethods,LeadingZeros)
 
 TEST(GCCBuiltinMethods,TrailingZeros)
 {
-    using namespace SignalFlux::Platform;
+    using namespace SignumFlux::Platform;
     std::uint8_t a = 0x38;//0011 1000
     std::uint8_t a_z = 0x00;
     std::uint16_t b = 0x0132;//0000 0001 0011 0010
@@ -47,7 +47,7 @@ TEST(GCCBuiltinMethods,TrailingZeros)
 
 TEST(GCCBulitinMethods,PopulationCount)
 {
-    using namespace SignalFlux::Platform;
+    using namespace SignumFlux::Platform;
     std::uint8_t a = 0x38;//0011 1000
     std::uint8_t a_z = 0x00;
     std::uint16_t b = 0x0573;//0000 0101 0111 0011
@@ -68,7 +68,7 @@ TEST(GCCBulitinMethods,PopulationCount)
 
 TEST(GCCBuiltinMethods,ByteSwap)
 {
-    using namespace SignalFlux::Platform;
+    using namespace SignumFlux::Platform;
     std::uint16_t b = 0x0573;//0000 0101 0111 0011
     std::uint32_t c = 0x0100F100;// 0000 0001 0000 0000 1111 0001 0000 0000
     std::uint64_t d = 0x0000000000040000;//0100 0000 0000 0000 0000

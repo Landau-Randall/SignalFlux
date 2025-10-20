@@ -1,6 +1,6 @@
 #include "sigflx_lib/sigflx_allocators_buffer_pool.h"
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Allocators
 {
@@ -85,14 +85,11 @@ void BufferPool<T,BufferCount,BufferSize>::deallocate(Pointer ptr,SizeType n)
     assert(n == BufferSize);
 
     auto & fixedPoll = FixedBlockPool::instance();
-    if (ptr != nullptr)
-    {
-        Node * node = fixedPoll.allocate<Node>(1);
-        node->buffer = ptr;
-        node->next = freeList_;
-        freeList_ = node;
-        node = nullptr;
-    }
+    Node * node = fixedPoll.allocate<Node>(1);
+    node->buffer = ptr;
+    node->next = freeList_;
+    freeList_ = node;
+    node = nullptr;
 }
 
 template<typename T,std::size_t BufferCount,std::size_t BufferSize>
@@ -104,6 +101,10 @@ pool_(&pool)
 template<typename T,std::size_t BufferCount,std::size_t BufferSize>
 typename BufferPoolAllocator<T,BufferCount,BufferSize>::Pointer BufferPoolAllocator<T,BufferCount,BufferSize>::allocate(SizeType n)
 {
+    if (n == 0)
+    {
+        return nullptr;
+    }
     return pool_->allocate(n);
 }
 

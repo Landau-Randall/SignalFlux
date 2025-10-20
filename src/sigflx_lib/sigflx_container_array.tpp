@@ -1,7 +1,7 @@
 #include "sigflx_lib/sigflx_container_array.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Container
 {

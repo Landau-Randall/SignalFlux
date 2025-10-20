@@ -3,18 +3,18 @@
 #include <cstddef>
 #include <iterator>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 template<typename T,typename Allocator>
 class Signal
 {
 public:
     using ValueType = T;
+    using SizeType = std::size_t;
     using Pointer = T *;
     using ConstPointer = const T *;
     using Reference = T &;
     using ConstReference = const T &;
-    using SizeType = std::size_t;
     using AllocatorType = Allocator;
 
     enum class Layout{Interleaved,Planar};
@@ -29,9 +29,9 @@ public:
 
         using IteratorCategory = std::random_access_iterator_tag;
         using ValueType = ValueTypeCondition;
+        using SizeType = Signal::SizeType;
         using Pointer = PointerCondition;
         using Reference = ReferenceCondition;
-        using SizeType = Signal::SizeType;
         using DifferenceType = std::ptrdiff_t;
     private:
         Pointer head_ = nullptr;
@@ -94,7 +94,6 @@ private:
     double sampleRate_ = 1.0;
     double duration_ = 0.0;
     AllocatorType allocator_;
-    bool ownsData_ = false;
     Layout layout_ = Layout::Planar;
 public:
     Signal();
@@ -104,7 +103,7 @@ public:
 
     Signal(SizeType frames,SizeType channels,double sampleRate,Layout layout = Layout::Planar);
     Signal(SizeType frames,SizeType channels,double sampleRate,const AllocatorType & allocator,Layout layout = Layout::Planar);
-    Signal(T * data,SizeType frames,SizeType channels,double sampleRate,bool ownsData = false,Layout layout = Layout::Planar);
+    Signal(T * data,SizeType frames,SizeType channels,double sampleRate,Layout layout = Layout::Planar);
     Signal(T * data,SizeType frames,SizeType channels,double sampleRate,const AllocatorType & allocator,Layout layout = Layout::Planar);
 
     ~Signal();
@@ -124,9 +123,8 @@ public:
     SizeType channels() const noexcept { return channels_; };
     double sampleRate() const noexcept { return sampleRate_; };
     double duration() const noexcept { return duration_; };
-    bool ownsData() const noexcept { return ownsData_; };
     Layout layout() const noexcept { return layout_; };
-    bool empty() const noexcept { return size_ == 0; };
+    bool empty() const noexcept { return frames_ == 0 || channels_ == 0; };
 
     void resize(SizeType newFrames);
     void clear();

@@ -3,7 +3,7 @@
 #include "sigflx_lib/sigflx_math_complex.h"
 #include <limits>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Math
 {

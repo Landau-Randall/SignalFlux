@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Math
 {

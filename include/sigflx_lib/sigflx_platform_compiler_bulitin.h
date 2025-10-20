@@ -2,7 +2,7 @@
 #include <cstdint>
 #include "sigflx_platform_detect.h"
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Platform
 {

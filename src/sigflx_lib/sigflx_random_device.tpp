@@ -4,7 +4,7 @@
 #include "sigflx_lib/sigflx_random_device.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Random
 {

@@ -1,6 +1,6 @@
 #include "sigflx_lib/sigflx_strings_c_methods.h"
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Strings
 {

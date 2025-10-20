@@ -3,7 +3,7 @@
 #include <cmath>
 #include <limits>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Math
 {

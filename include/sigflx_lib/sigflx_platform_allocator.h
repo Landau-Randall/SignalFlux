@@ -4,7 +4,7 @@
 #include <exception>
 #include <stdlib.h>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Platform
 {

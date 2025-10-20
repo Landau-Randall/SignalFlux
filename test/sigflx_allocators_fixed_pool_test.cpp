@@ -3,7 +3,7 @@
 
 TEST(FixedBlockPoolTest, AllocateAndDeallocateChar)
 {
-    auto& pool = SignalFlux::Allocators::FixedBlockPool::instance();
+    auto& pool = SignumFlux::Allocators::FixedBlockPool::instance();
     char* p = pool.allocate<char>(1);
     ASSERT_NE(p, nullptr);
     pool.deallocate<char>(p, 1);
@@ -11,7 +11,7 @@ TEST(FixedBlockPoolTest, AllocateAndDeallocateChar)
 
 TEST(FixedBlockPoolTest, AllocateAndDeallocateInt64)
 {
-    auto& pool = SignalFlux::Allocators::FixedBlockPool::instance();
+    auto& pool = SignumFlux::Allocators::FixedBlockPool::instance();
     int64_t* p = pool.allocate<int64_t>(1);
     ASSERT_NE(p, nullptr);
     pool.deallocate<int64_t>(p, 1);
@@ -19,7 +19,7 @@ TEST(FixedBlockPoolTest, AllocateAndDeallocateInt64)
 
 TEST(FixedBlockPoolTest, ReuseBlock)
 {
-    auto& pool = SignalFlux::Allocators::FixedBlockPool::instance();
+    auto& pool = SignumFlux::Allocators::FixedBlockPool::instance();
     char* p1 = pool.allocate<char>(1);
     pool.deallocate<char>(p1, 1);
     char* p2 = pool.allocate<char>(1);

@@ -3,7 +3,7 @@
 
 TEST(CStringMethods,StringLength)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "abcd";
     const wchar_t * test2 = L"abcde";
     std::size_t size_a = stringLength(test1);
@@ -14,7 +14,7 @@ TEST(CStringMethods,StringLength)
 
 TEST(CStringMethods,StringCopy)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "abcd";
     const wchar_t * test2 = L"abcde";
     char buffer1[5];
@@ -27,7 +27,7 @@ TEST(CStringMethods,StringCopy)
 
 TEST(CStringMethods,AllStringCompare)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "abcd";
     const char * test2 = "bcde";
     const char * test3 = "abcd";
@@ -44,7 +44,7 @@ TEST(CStringMethods,AllStringCompare)
 
 TEST(CStringMethods,PartStringCompare)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "abcd";
     const char * test2 = "abce";
     int sign1 = stringCompare(test1,test2);
@@ -57,7 +57,7 @@ TEST(CStringMethods,PartStringCompare)
 
 TEST(CStringMethods,StringFind)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "abedef";
     const char * sign1 = stringFind(test1,'e');
     const char * sign2 = stringFind(test1,"de");
@@ -69,7 +69,7 @@ TEST(CStringMethods,StringFind)
 
 TEST(CStringMethods,StringFill)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     char buffer[6];
     const char * test1 = "aaaaa";
     stringFill(buffer,'a',5);
@@ -80,7 +80,7 @@ TEST(CStringMethods,StringFill)
 
 TEST(CStringMethods,StringSplit)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     const char * test1 = "you,finally awake";
     char test2[] = "hey,you,finally awake";
     const char* test3 = nullptr;
@@ -104,7 +104,7 @@ TEST(CStringMethods,StringSplit)
 
 TEST(CStringMethods,StringConcatenate)
 {
-    using namespace SignalFlux::Strings;
+    using namespace SignumFlux::Strings;
     char test1[] = "buffer\0\0\0";
     char test2[] = "sig\0\0\0";
     stringConcatenate(test1,"cow");

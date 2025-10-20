@@ -1,7 +1,7 @@
 #include "sigflx_lib/sigflx_allocators_fixed_pool.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Allocators
 {
@@ -171,14 +171,16 @@ void FixedBlockPool::deallocate(T * ptr,SizeType n)
 template<typename T>
 typename FixedPoolAllocator<T>::Pointer FixedPoolAllocator<T>::allocate(SizeType n)
 {
-    assert(n == 1);
+    if (n == 0)
+    {
+        return nullptr;
+    }
     return FixedBlockPool::instance().allocate<T>(n);
 }
 
 template<typename T>
 void FixedPoolAllocator<T>::deallocate(Pointer ptr,SizeType n)
 {
-    assert(n == 1);
     return FixedBlockPool::instance().deallocate(ptr,n);
 }
 

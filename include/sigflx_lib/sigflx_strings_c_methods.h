@@ -2,7 +2,7 @@
 #include <cstddef>
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Strings
 {

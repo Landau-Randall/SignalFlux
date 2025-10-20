@@ -3,7 +3,7 @@
 #include <cstddef>
 #include "sigflx_lib/sigflx_platform_allocator.h"
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Allocators
 {

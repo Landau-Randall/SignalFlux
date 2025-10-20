@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Math
 {

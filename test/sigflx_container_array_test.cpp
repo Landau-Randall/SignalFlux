@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "sigflx_lib/sigflx_container_array.h"
 
-using TestArray = SignalFlux::Container::Array<int,10>;
+using TestArray = SignumFlux::Container::Array<int,10>;
 
 TEST(ArrayConstructMethod,AllMethod)
 {

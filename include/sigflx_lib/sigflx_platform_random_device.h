@@ -4,7 +4,7 @@
 #include "sigflx_lib/sigflx_platform_detect.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Platform
 {

@@ -1,7 +1,7 @@
 #include "sigflx_lib/sigflx_allocators_aligned.h"
 
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Allocators
 {

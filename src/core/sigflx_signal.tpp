@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 template<typename T,typename Allocator>
 Signal<T,Allocator>::Signal()
@@ -18,23 +18,12 @@ channels_(object.channels_),
 sampleRate_(object.sampleRate_),
 duration_(object.duration_),
 allocator_(object.allocator_),
-layout_(object.layout_),
-ownsData_(object.ownsData_)
+layout_(object.layout_)
 {
-    if (ownsData_)
+    if (object.data_ != nullptr)
     {
-        if (object.data_ != nullptr)
-        {
-            data_ = allocator_.allocate(size_);
-            std::copy(object.data_,object.data_ + object.size_,data_);
-        }
-    }
-    else
-    {
-        if (object.data_ != nullptr)
-        {
-            data_ = object.data_;
-        }
+        data_ = allocator_.allocate(size_);
+        std::copy(object.data_,object.data_ + object.size_,data_);
     }
 }
 
@@ -46,8 +35,7 @@ channels_(object.channels_),
 sampleRate_(object.sampleRate_),
 duration_(object.duration_),
 allocator_(allocator),
-layout_(object.layout_),
-ownsData_(true)
+layout_(object.layout_)
 {
     if (object.data_ != nullptr)
     {
@@ -65,8 +53,7 @@ channels_(object.channels_),
 sampleRate_(object.sampleRate_),
 duration_(object.duration_),
 allocator_(std::move(object.allocator_)),
-layout_(object.layout_),
-ownsData_(object.ownsData_)
+layout_(object.layout_)
 {
     object.data_ = nullptr;
     object.size_ = 0;
@@ -75,7 +62,6 @@ ownsData_(object.ownsData_)
     object.sampleRate_ = 1.0;
     object.duration_ = 0.0;
     object.layout_ = Layout::Planar;
-    object.ownsData_ = false;
 }
 
 template<typename T,typename Allocator>
@@ -86,7 +72,6 @@ channels_(channels),
 sampleRate_(sampleRate),
 duration_(static_cast<double>(frames) / sampleRate),
 allocator_(),
-ownsData_(true),
 layout_(layout)
 {
     data_ = allocator_.allocate(size_);
@@ -100,36 +85,25 @@ channels_(channels),
 sampleRate_(sampleRate),
 duration_(static_cast<double>(frames) / sampleRate),
 allocator_(allocator),
-ownsData_(true),
 layout_(layout)
 {
     data_ = allocator_.allocate(size_);
 }
 
 template<typename T,typename Allocator>
-Signal<T,Allocator>::Signal(T * data,SizeType frames,SizeType channels,double sampleRate,bool ownsData,Layout layout):
+Signal<T,Allocator>::Signal(T * data,SizeType frames,SizeType channels,double sampleRate,Layout layout):
 size_(frames * channels),
-frames_(frames),channels_(channels),
+frames_(frames),
+channels_(channels),
 sampleRate_(sampleRate),
 duration_(static_cast<double>(frames) / sampleRate),
 allocator_(),
-ownsData_(ownsData),
 layout_(layout)
 {
-    if (ownsData_)
+    if (data != nullptr)
     {
-        if (data != nullptr)
-        {
-            data_ = allocator_.allocate(size_);
-            std::copy(data,data + size_,data_);
-        }
-    }
-    else
-    {
-        if (data != nullptr)
-        {
-            data_ = data;
-        }
+        data_ = allocator_.allocate(size_);
+        std::copy(data,data + size_,data_);
     }
 }
 
@@ -141,7 +115,6 @@ channels_(channels),
 sampleRate_(sampleRate),
 duration_(static_cast<double>(frames) / sampleRate),
 allocator_(allocator),
-ownsData_(true),
 layout_(layout)
 {
     if (data != nullptr)
@@ -154,16 +127,9 @@ layout_(layout)
 template<typename T,typename Allocator>
 Signal<T,Allocator>::~Signal()
 {
-    if (ownsData_)
+    if (data_ != nullptr)
     {
-        if (data_ != nullptr)
-        {
-            allocator_.deallocate(data_,size_);
-            data_ = nullptr;
-        }
-    }
-    else
-    {
+        allocator_.deallocate(data_,size_);
         data_ = nullptr;
     }
 }
@@ -237,11 +203,6 @@ typename Signal<T,Allocator>::ConstReference Signal<T,Allocator>::at(SizeType fr
 template<typename T,typename Allocator>
 void Signal<T,Allocator>::resize(SizeType newFrames)
 {
-    if (!ownsData_)
-    {
-        throw std::logic_error("resize must owns the data!");
-    }
-
     if (newFrames == frames_)
     {
         return;
@@ -281,25 +242,14 @@ void Signal<T,Allocator>::clear()
 template<typename T,typename Allocator>
 void Signal<T,Allocator>::release()
 {
-    if (ownsData_)
+    if (data_ != nullptr)
     {
-        if (data_ != nullptr)
-        {
-            allocator_.deallocate(data_,size_);
-            data_ = nullptr;
-        }
-        size_ = 0;
-        frames_ = 0;
-        duration_ = 0.0;
-        ownsData_ = false;
-    }
-    else
-    {
+        allocator_.deallocate(data_,size_);
         data_ = nullptr;
-        size_ = 0;
-        frames_ = 0;
-        duration_ = 0.0;
     }
+    size_ = 0;
+    frames_ = 0;
+    duration_ = 0.0;
 }
 
 template<typename T,typename Allocator>
@@ -312,7 +262,6 @@ void Signal<T,Allocator>::swap(Signal & second)
     std::swap(sampleRate_,second.sampleRate_);
     std::swap(duration_,second.duration_);
     std::swap(allocator_,second.allocator_);
-    std::swap(ownsData_,second.ownsData_);
     std::swap(layout_,second.layout_);
 }
 

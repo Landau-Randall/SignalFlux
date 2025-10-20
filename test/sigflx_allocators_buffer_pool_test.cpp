@@ -2,7 +2,7 @@
 #include "sigflx_lib/sigflx_allocators_buffer_pool.h"
 
 
-SignalFlux::Allocators::BufferPool<float,128,1024> pool;
+SignumFlux::Allocators::BufferPool<float,128,1024> pool;
 
 
 TEST(BufferPoolTest,AllocateAndDeallocate)

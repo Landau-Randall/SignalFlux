@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-namespace SignalFlux
+namespace SignumFlux
 {
 namespace Container
 {
